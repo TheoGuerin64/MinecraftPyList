@@ -31,7 +31,7 @@ class Main(QMainWindow):
 		loadAct.triggered.connect(qApp.quit)
 
 		# Exit action
-		exitAct = QAction("&Exit", self)
+		exitAct = QAction("E&self.setFixedSize(225,80)xit", self)
 		exitAct.setShortcut("Ctrl+Q")
 		exitAct.setStatusTip("Exit application")
 		exitAct.triggered.connect(qApp.quit)

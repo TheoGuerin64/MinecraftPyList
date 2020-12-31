@@ -6,14 +6,14 @@ class New(QDialog):
 	""" New popup """
 
 	def __init__(self, parent):
-		super().__init__(parent, Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint)
+		super().__init__(parent, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
 		self.initUI()
 
 	def initUI(self):
 		self.setWindowTitle('New list')
 		self.setWindowIcon(QIcon('Assets/new.png'))
 
-		self.setMinimumWidth(225)
+		self.setFixedSize(225,71)
 
 		# --- formLayout ---
 		formLayout = QFormLayout()
