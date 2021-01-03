@@ -24,8 +24,7 @@ class ListModifier(QScrollArea):
 
 		self.show()
 
-	@profile
-	def addItem(self, e):
+	def addItem(self):
 		item = ItemList()
 		self.itemsLayout.addWidget(item)
 
