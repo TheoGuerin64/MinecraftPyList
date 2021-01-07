@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QTabWidget, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QTabWidget, QWidget, QScrollArea
 from PyQt5.QtGui import QIcon
 from ListModifier import ListModifier
 
@@ -11,8 +11,8 @@ class Main(QMainWindow):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowTitle('MinecraftPyList')
-		self.setWindowIcon(QIcon('Assets/icon.png'))
+		self.setWindowTitle("MinecraftPyList")
+		self.setWindowIcon(QIcon("Assets/icon.png"))
 		# https://www.flaticon.com/authors/icongeek26
 
 		self.setMinimumWidth(1000)
@@ -50,8 +50,9 @@ class Main(QMainWindow):
 		tabs = QTabWidget()
 
 		# Tab1
-		ta1 = ListModifier()
-		tabs.addTab(ta1, "List modifier")
+		tab1 = ListModifier()
+
+		tabs.addTab(tab1, "List modifier")
 
 		# Tab2
 		tab2 = QWidget()

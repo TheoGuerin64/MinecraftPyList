@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QLineEdit, QVBoxLayout, QHBoxLayout, QPushButton, QListWidget
+from PyQt5.QtWidgets import QDialog, QLineEdit, QVBoxLayout, QHBoxLayout, QPushButton, QListWidget, QAbstractItemView
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 from ItemPickerItem import ItemPickerItem
@@ -27,6 +27,7 @@ class ItemPicker(QDialog):
 		self.list.setViewMode(QListWidget.IconMode)
 		self.list.setResizeMode(QListWidget.Adjust)
 		self.list.setIconSize(QSize(32, 32))
+		self.list.setDragDropMode(QAbstractItemView.NoDragDrop)
 
 		for item in self.itemList:
 			self.list.addItem(ItemPickerItem(item))

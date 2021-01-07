@@ -8,8 +8,8 @@ class New(QDialog):
 		self.initUI()
 
 	def initUI(self):
-		self.setWindowTitle('New list')
-		self.setWindowIcon(QIcon('Assets/new.png'))
+		self.setWindowTitle("New list")
+		self.setWindowIcon(QIcon("Assets/new.png"))
 		# https://www.flaticon.com/authors/icongeek26
 
 		self.setFixedSize(225,71)
