@@ -3,8 +3,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
 class New(QDialog):
-	""" New popup """
-
 	def __init__(self, parent):
 		super().__init__(parent, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
 		self.initUI()
@@ -12,10 +10,11 @@ class New(QDialog):
 	def initUI(self):
 		self.setWindowTitle('New list')
 		self.setWindowIcon(QIcon('Assets/new.png'))
+		# https://www.flaticon.com/authors/icongeek26
 
 		self.setFixedSize(225,71)
 
-		# --- formLayout ---
+		# FormLayout
 		formLayout = QFormLayout()
 		formLayout.setFormAlignment(Qt.AlignCenter)
 
@@ -23,7 +22,7 @@ class New(QDialog):
 		nameText = QLineEdit()
 		formLayout.addRow("Name :",nameText)
 
-		# --- buttons ---
+		# Buttons
 		createBtn = QPushButton("Create")
 		createBtn.clicked.connect(self.create)
 
@@ -34,7 +33,7 @@ class New(QDialog):
 		btnLayout.addWidget(createBtn)
 		btnLayout.addWidget(cancelBtn)
 
-		# --- mainLayout ---
+		# MainLayout
 		mainLayout = QVBoxLayout()
 
 		mainLayout.addLayout(formLayout)

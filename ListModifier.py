@@ -1,25 +1,26 @@
 from PyQt5.QtWidgets import QScrollArea, QVBoxLayout, QPushButton
+from PyQt5.QtCore import Qt
 from ItemList import ItemList
 
 class ListModifier(QScrollArea):
-	""" List modifier """
-
 	def __init__(self, parent=None):
 		super().__init__(parent)
 		self.initUI()
 
 	def initUI(self):
-		#itemsLayout
+		# ItemsLayout
 		self.itemsLayout = QVBoxLayout()
+		self.itemsLayout.setAlignment(Qt.AlignAbsolute)
 
-		#addItemBtn
+		# AddItemBtn
 		addItemBtn = QPushButton("+")
 		addItemBtn.clicked.connect(self.addItem)
 
-		#mainLayout
+		# MainLayout
 		mainLayout = QVBoxLayout()
 		mainLayout.addLayout(self.itemsLayout)
-		mainLayout.addWidget(addItemBtn)
+		mainLayout.addWidget(addItemBtn, 0, Qt.AlignBottom)
+
 		self.setLayout(mainLayout)
 
 		self.show()
@@ -28,9 +29,8 @@ class ListModifier(QScrollArea):
 		item = ItemList()
 		self.itemsLayout.addWidget(item)
 
-if __name__ == "__main__":
-	import sys
-	from PyQt5.QtWidgets import QApplication
-	app = QApplication(sys.argv)
-	new = ListModifier()
-	sys.exit(app.exec_())
+	def getValue(self):
+		list = []
+		for i in range(self.itemsLayout.count()):
+			list.append(self.itemsLayout.itemAt(i).widget().getValue())
+		return list

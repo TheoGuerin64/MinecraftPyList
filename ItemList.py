@@ -1,13 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QSpinBox, QAbstractSpinBox, QPushButton, QComboBox, QLabel
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QPixmap
-from itemAssetsList import itemAssetsList
 from ItemPicker import ItemPicker
 from ItemImage import ItemImage
 from Item import Item
 
 class ItemList(QWidget):
-	def __init__(self, item=Item("Dirt")):
+	def __init__(self, item=Item("Grass Block")):
 		super().__init__()
 
 		self.item = item
@@ -15,45 +13,46 @@ class ItemList(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		self.setFixedSize(370,100)
+		self.setFixedSize(370,95)
 
-		#item
+		# Item
 		self.itemImage = ItemImage(self.item)
 		self.itemImage.clicked.connect(self.itemChoose)
 
 		self.itemText = QLabel(self.item.name)
-		self.itemText.setMinimumWidth(150)
+		self.itemText.setMinimumWidth(170)
 		self.itemText.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
 		self.itemLayout = QHBoxLayout()
 		self.itemLayout.addWidget(self.itemImage)
 		self.itemLayout.addWidget(self.itemText)
 
-		#number of items
+		# Number of items
 		self.itemNb = QSpinBox()
+		self.itemNb.valueChanged.connect(self.nbChanged)
 		self.itemNb.setButtonSymbols(QAbstractSpinBox.NoButtons)
 		self.itemNb.setAlignment(Qt.AlignCenter)
 		self.itemNb.setFixedSize(50,25)
 		self.itemNb.setRange(0, 999999)
 		self.itemNb.setValue(self.item.nb)
 
-		#minusBtn
+		# MinusBtn
 		minusBtn = QPushButton("-")
 		minusBtn.setStyleSheet("border:0px;")
 		minusBtn.clicked.connect(self.minusNb)
 
-		#addBtn
+		# AddBtn
 		addBtn = QPushButton("+")
 		addBtn.setStyleSheet("border:0px;")
 		addBtn.clicked.connect(self.addNb)
 
-		#itemNbLayout
+		# ItemNbLayout
 		itemNbLayout = QHBoxLayout()
 		itemNbLayout.addWidget(minusBtn)
 		itemNbLayout.addWidget(self.itemNb)
 		itemNbLayout.addWidget(addBtn)
 
-		#itemNbPerClick
+		# ItemNbPerClick
 		self.itemNbPerClick = QComboBox()
 		self.itemNbPerClick.addItem("1")
 		self.itemNbPerClick.addItem("16 (quarter stack)")
@@ -64,54 +63,54 @@ class ItemList(QWidget):
 		self.itemNbPerClick.addItem("3456 (double chest)")
 		self.itemNbPerClick.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLength)
 
-		#nbLayout
+		# NbLayout
 		nbLayout = QVBoxLayout()
 		nbLayout.addLayout(itemNbLayout)
 		nbLayout.addWidget(self.itemNbPerClick)
 
-		#destroyBtn
+		# DestroyBtn
 		destroyBtn = QPushButton("x")
 		destroyBtn.setStyleSheet("border:0px;")
 		destroyBtn.clicked.connect(self.deleteLater)
 
-		#contentLayout
+		# ContentLayout
 		contentLayout = QHBoxLayout()
 		contentLayout.addLayout(self.itemLayout)
 		contentLayout.addLayout(nbLayout)
 
-		#mainLayout
+		# MainLayout
 		mainLayout = QVBoxLayout()
 		mainLayout.addWidget(destroyBtn, 0, Qt.AlignRight)
 		mainLayout.addLayout(contentLayout)
 		self.setLayout(mainLayout)
 
 	def minusNb(self):
-		self.itemNb.setValue(self.itemNb.value() - [1,16,32,64,128,1728,3456][self.itemNbPerClick.currentIndex()])
+		nb = self.itemNb.value() - [1,16,32,64,128,1728,3456][self.itemNbPerClick.currentIndex()]
+		self.itemNb.setValue(nb)
 
 	def addNb(self):
-		self.itemNb.setValue(self.itemNb.value() + [1,16,32,64,128,1728,3456][self.itemNbPerClick.currentIndex()])
+		nb = self.itemNb.value() + [1,16,32,64,128,1728,3456][self.itemNbPerClick.currentIndex()]
+		self.itemNb.setValue(nb)
 
 	def itemChoose(self):
 		itemPicker = ItemPicker(self)
 		if itemPicker.exec_():
 			self.item = itemPicker.getValue()
 
-			#delete old item image
+			# Delete old item image
 			self.itemImage.setParent(None)
 			self.itemImage.deleteLater()
 
-			#add new item image
+			# Add new item image
 			self.itemImage = ItemImage(self.item)
 			self.itemImage.clicked.connect(self.itemChoose)
 			self.itemLayout.insertWidget(0, self.itemImage)
 
-			#update item name
+			# Update item name
 			self.itemText.setText(self.item.name)
 
-if __name__ == "__main__":
-	import sys
-	from PyQt5.QtWidgets import QApplication
-	app = QApplication(sys.argv)
-	new = ItemList()
-	new.show()
-	sys.exit(app.exec_())
+	def nbChanged(self):
+		self.item.nb = self.itemNb.value()
+
+	def getValue(self):
+		return self.item

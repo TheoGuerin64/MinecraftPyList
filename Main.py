@@ -1,6 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QTabWidget, QWidget
 from PyQt5.QtGui import QIcon
+from ListModifier import ListModifier
 
 class Main(QMainWindow):
 	""" Main window """
@@ -12,6 +13,7 @@ class Main(QMainWindow):
 	def initUI(self):
 		self.setWindowTitle('MinecraftPyList')
 		self.setWindowIcon(QIcon('Assets/icon.png'))
+		# https://www.flaticon.com/authors/icongeek26
 
 		self.setMinimumWidth(1000)
 		self.setMinimumHeight(700)
@@ -43,13 +45,26 @@ class Main(QMainWindow):
 		fileMenu.addAction(loadAct)
 		fileMenu.addAction(exitAct)
 
+		# --- Tabs ---
+
+		tabs = QTabWidget()
+
+		# Tab1
+		ta1 = ListModifier()
+		tabs.addTab(ta1, "List modifier")
+
+		# Tab2
+		tab2 = QWidget()
+		tabs.addTab(tab2, "List info")
+
+		self.setCentralWidget(tabs)
+
 		self.show()
 
 	def newAction(self):
 		from New import New
 		new = New(self)
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    main = Main()
-    sys.exit(app.exec_())
+app = QApplication(sys.argv)
+main = Main()
+sys.exit(app.exec_())
