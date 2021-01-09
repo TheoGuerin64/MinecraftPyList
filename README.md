@@ -3,4 +3,6 @@ For building huge things in minecraft, you need to setup a list of the things yo
 \
 You can import list from NBT schematics !\
 \
-Builds would be released at the 1.0
+Builds would be released at the 1.0\
+\
+Thanks to icongeek26 for the icons : https://www.flaticon.com/authors/icongeek26
