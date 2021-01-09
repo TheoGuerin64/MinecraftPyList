@@ -4,7 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 
 class ItemImage(QLabel):
 
-	# Signal
+	#Signal
 	clicked = pyqtSignal(QLabel)
 
 	def __init__(self, item):

@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QScrollArea, QVBoxLayout, QPushButton, QAbstractSlider
+from PyQt5.QtWidgets import QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QPushButton, QAbstractSlider, QLabel, QSpacerItem
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 from ItemList import ItemList
+from Item import Item
 
 class ListModifier(QScrollArea):
 	def __init__(self):
@@ -11,10 +12,28 @@ class ListModifier(QScrollArea):
 	def initUI(self):
 		self.setWidget(ListModifierWidget(self))
 		self.setWidgetResizable(True)
+		self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+
+		#Items nb label
+		self.label = QLabel("Item(s) : " + str(self.widget().itemsLayout.count()), self)
+		self.label.setAlignment(Qt.AlignRight)
+		self.label.setFixedSize(100,22)
+
+		font = self.label.font()
+		font.setPointSize(12)
+		self.label.setFont(font)
+
+		box = QHBoxLayout(self)
+		box.setAlignment(Qt.AlignRight | Qt.AlignTop)
+		box.addWidget(self.label)
+		box.addSpacerItem(QSpacerItem(18,0))
 
 	def scollDown(self):
 		vbar = self.verticalScrollBar()
 		vbar.setValue(vbar.maximum())
+
+	def updateLabel(self):
+		self.label.setText("Item(s) : " + str(self.widget().itemsLayout.count()))
 
 class ListModifierWidget(QWidget):
 	def __init__(self, parent):
@@ -25,18 +44,18 @@ class ListModifierWidget(QWidget):
 		self.initUI()
 
 	def initUI(self):
-		# ItemsLayout
+		#ItemsLayout
 		self.itemsLayout = QVBoxLayout()
 		self.itemsLayout.setAlignment(Qt.AlignAbsolute)
 
-		# AddItemBtn
+		#AddItemBtn
 		self.addItemBtn = QPushButton()
 		self.addItemBtn.setIcon(QIcon("Assets/add.png"))
 		self.addItemBtn.setStyleSheet("border:0px;")
 		self.addItemBtn.setIconSize(QSize(50,50))
 		self.addItemBtn.clicked.connect(self.addItem)
 
-		# MainLayout
+		#MainLayout
 		mainLayout = QVBoxLayout()
 		mainLayout.addLayout(self.itemsLayout)
 		mainLayout.addWidget(self.addItemBtn, 0, Qt.AlignBottom | Qt.AlignHCenter)
@@ -45,9 +64,10 @@ class ListModifierWidget(QWidget):
 
 		self.show()
 
-	def addItem(self):
-		item = ItemList()
-		self.itemsLayout.addWidget(item)
+	def addItem(self, e, item=Item()):
+		itemList = ItemList(self, item)
+		self.itemsLayout.addWidget(itemList)
+		self.parent.updateLabel()
 
 	def resizeEvent(self, event):
 		self.parent.scollDown()

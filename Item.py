@@ -1,9 +1,8 @@
 from itemAssetsList import itemAssetsList
 
 class Item:
-	def __init__(self, name="Grass Block", nb=1):
+	def __init__(self, name="Grass Block", nb=0):
 		self.name = name
-
 		self.nb = nb
 
 		if name in itemAssetsList:

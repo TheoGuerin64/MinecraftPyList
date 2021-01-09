@@ -7,7 +7,6 @@ from Item import Item
 class ItemPicker(QDialog):
 	def __init__(self, parent):
 		super().__init__(parent, Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
-
 		self.itemList = Item.list()
 		self.itemNameList = Item.nameList()
 
@@ -18,11 +17,11 @@ class ItemPicker(QDialog):
 		self.setWindowIcon(QIcon("Assets\\Items\\grass_block.png"))
 		self.resize(728 ,500)
 
-		# Seach bar
+		#Seach bar
 		self.searchBar = QLineEdit()
 		self.searchBar.textChanged.connect(self.searchBarUpdate)
 
-		# Item list
+		#Item list
 		self.list = QListWidget()
 		self.list.setViewMode(QListWidget.IconMode)
 		self.list.setResizeMode(QListWidget.Adjust)
@@ -32,7 +31,7 @@ class ItemPicker(QDialog):
 		for item in self.itemList:
 			self.list.addItem(ItemPickerItem(item))
 
-		# Buttons
+		#Buttons
 		addBtn = QPushButton("Add")
 		addBtn.clicked.connect(self.add)
 
@@ -43,7 +42,7 @@ class ItemPicker(QDialog):
 		btnLayout.addWidget(addBtn)
 		btnLayout.addWidget(cancelBtn)
 
-		# Main layout
+		#Main layout
 		mainLayout = QVBoxLayout()
 		mainLayout.addWidget(self.searchBar)
 		mainLayout.addWidget(self.list)

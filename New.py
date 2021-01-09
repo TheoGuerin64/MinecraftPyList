@@ -10,19 +10,18 @@ class New(QDialog):
 	def initUI(self):
 		self.setWindowTitle("New list")
 		self.setWindowIcon(QIcon("Assets/new.png"))
-		# https://www.flaticon.com/authors/icongeek26
 
 		self.setFixedSize(225,71)
 
-		# FormLayout
+		#FormLayout
 		formLayout = QFormLayout()
 		formLayout.setFormAlignment(Qt.AlignCenter)
 
-		# Name
+		#Name
 		nameText = QLineEdit()
 		formLayout.addRow("Name :",nameText)
 
-		# Buttons
+		#Buttons
 		createBtn = QPushButton("Create")
 		createBtn.clicked.connect(self.create)
 
@@ -33,7 +32,7 @@ class New(QDialog):
 		btnLayout.addWidget(createBtn)
 		btnLayout.addWidget(cancelBtn)
 
-		# MainLayout
+		#MainLayout
 		mainLayout = QVBoxLayout()
 
 		mainLayout.addLayout(formLayout)
@@ -45,10 +44,3 @@ class New(QDialog):
 
 	def create(self):
 		pass
-
-if __name__ == "__main__":
-	import sys
-	from PyQt5.QtWidgets import QApplication
-	app = QApplication(sys.argv)
-	new = New(None)
-	sys.exit(app.exec_())
