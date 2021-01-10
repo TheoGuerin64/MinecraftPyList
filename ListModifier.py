@@ -64,16 +64,22 @@ class ListModifierWidget(QWidget):
 
 		self.show()
 
+	def resizeEvent(self, event):
+		self.parent.scollDown()
+
 	def addItem(self, e, item=Item()):
 		itemList = ItemList(self, item)
 		self.itemsLayout.addWidget(itemList)
 		self.parent.updateLabel()
 
-	def resizeEvent(self, event):
-		self.parent.scollDown()
+	def clear(self):
+		for i in range(self.itemsLayout.count()):
+			self.itemsLayout.itemAt(0).widget().delete()
+		self.parent.updateLabel()
 
 	def getValue(self):
-		list = []
+		itemList = {}
 		for i in range(self.itemsLayout.count()):
-			list.append(self.itemsLayout.itemAt(i).widget().getValue())
-		return list
+			item = self.itemsLayout.itemAt(i).widget().getValue()
+			itemList[item.name] = item.nb
+		return itemList

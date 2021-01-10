@@ -18,15 +18,15 @@ class New(QDialog):
 		formLayout.setFormAlignment(Qt.AlignCenter)
 
 		#Name
-		nameText = QLineEdit()
-		formLayout.addRow("Name :",nameText)
+		self.nameText = QLineEdit()
+		formLayout.addRow("Name :",self.nameText)
 
 		#Buttons
 		createBtn = QPushButton("Create")
 		createBtn.clicked.connect(self.create)
 
 		cancelBtn = QPushButton("Cancel")
-		cancelBtn.clicked.connect(self.close)
+		cancelBtn.clicked.connect(self.reject)
 
 		btnLayout = QHBoxLayout()
 		btnLayout.addWidget(createBtn)
@@ -43,4 +43,8 @@ class New(QDialog):
 		self.exec_()
 
 	def create(self):
-		pass
+		if self.nameText.text() != "":
+			self.accept()
+
+	def getValue(self):
+		return self.nameText.text()

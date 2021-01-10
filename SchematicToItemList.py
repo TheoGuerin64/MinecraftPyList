@@ -10,16 +10,16 @@ def getItemListFromNbt(file):
     blocks = {}
 
     for i in range(len(palette)):
-        blocks[i] = str(palette[i]["Name"]).replace('"','').replace("minecraft:","").replace("_"," ")
+        blocks[i] = str(palette[i]["Name"]).replace('"','').replace("minecraft:","").replace("_"," ").title()
 
     #Get number of blocks
     block_list = {}
 
     for i in range(len(pos)):
         if blocks[int(pos[i]['state'])].title() in block_list:
-            block_list[blocks[int(pos[i]['state'])].title()] += 1
+            block_list[blocks[int(pos[i]['state'])]] += 1
         else:
-            block_list[blocks[int(pos[i]['state'])].title()] = 1
+            block_list[blocks[int(pos[i]['state'])]] = 1
 
     return block_list
 
