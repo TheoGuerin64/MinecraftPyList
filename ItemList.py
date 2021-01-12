@@ -100,24 +100,33 @@ class ItemList(QWidget):
 	def itemChoose(self):
 		itemPicker = ItemPicker(self)
 		if itemPicker.exec_():
+			self.parent.parent.parent.addUndo(["itemChanged", [self, self.item, itemPicker.getValue()]])
+
 			self.item = itemPicker.getValue()
 
-			#Delete old item image
-			self.itemImage.setParent(None)
-			self.itemImage.deleteLater()
+			self.updateItem()
 
-			#Add new item image
-			self.itemImage = ItemImage(self.item)
-			self.itemImage.clicked.connect(self.itemChoose)
-			self.itemLayout.insertWidget(0, self.itemImage)
+	def updateItem(self):
+		#Delete old item image
+		self.itemImage.setParent(None)
+		self.itemImage.deleteLater()
 
-			#Update item name
-			self.itemText.setText(self.item.name)
+		#Add new item image
+		self.itemImage = ItemImage(self.item)
+		self.itemImage.clicked.connect(self.itemChoose)
+		self.itemLayout.insertWidget(0, self.itemImage)
 
-	def nbChanged(self):
-		self.item.nb = self.itemNb.value()
+		#Update item name
+		self.itemText.setText(self.item.name)
 
-	def delete(self):
+	def nbChanged(self, e, undo=True):
+		self.parent.parent.parent.addUndo(["valueChanged", [self, self.item.nb, e]])
+
+		self.item.nb = e
+
+	def delete(self, e=True):
+		if not(e):
+			self.parent.parent.parent.addUndo(["delete", [self.getValue(), self.parent.itemsLayout.indexOf(self)]])
 		self.parent.itemsLayout.removeWidget(self)
 		self.deleteLater()
 		self.parent.parent.updateLabel()

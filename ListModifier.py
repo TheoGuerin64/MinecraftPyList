@@ -5,8 +5,10 @@ from ItemList import ItemList
 from Item import Item
 
 class ListModifier(QScrollArea):
-	def __init__(self):
-		super().__init__()
+	def __init__(self, parent):
+		super().__init__(parent)
+		self.parent = parent
+
 		self.initUI()
 
 	def initUI(self):
@@ -37,8 +39,7 @@ class ListModifier(QScrollArea):
 
 class ListModifierWidget(QWidget):
 	def __init__(self, parent):
-		super().__init__(parent)
-
+		super().__init__()
 		self.parent = parent
 
 		self.initUI()
@@ -67,12 +68,27 @@ class ListModifierWidget(QWidget):
 	def resizeEvent(self, event):
 		self.parent.scollDown()
 
-	def addItem(self, e, item=Item()):
+	def addItem(self, e=True, item=Item()):
 		itemList = ItemList(self, item)
+
+		if itemList.getValue().nb != 0:
+			itemList.itemNb.setValue(0)
+			del self.parent.parent.historic["undo"][len(self.parent.parent.historic["undo"])-1]
+			del self.parent.parent.historic["undo"][len(self.parent.parent.historic["undo"])-1]
+
 		self.itemsLayout.addWidget(itemList)
 		self.parent.updateLabel()
 
+		if not(e):
+			self.parent.parent.addUndo(["add"])
+
 	def clear(self):
+		itemList = []
+		for i in range(self.itemsLayout.count()):
+			itemList.append(self.itemsLayout.itemAt(i).widget().item)
+
+		self.parent.parent.addUndo(["clear", itemList])
+
 		for i in range(self.itemsLayout.count()):
 			self.itemsLayout.itemAt(0).widget().delete()
 		self.parent.updateLabel()

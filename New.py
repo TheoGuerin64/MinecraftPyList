@@ -40,8 +40,6 @@ class New(QDialog):
 
 		self.setLayout(mainLayout)
 
-		self.exec_()
-
 	def create(self):
 		if self.nameText.text() != "":
 			self.accept()
